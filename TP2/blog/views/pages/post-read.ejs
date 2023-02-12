@@ -1,0 +1,39 @@
+<!-- views/pages/post-read.ejs -->
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <%- include('../partials/head') %>
+  </head>
+  <body class="container">
+    <header class="mb-4 border-bottom">
+      <%- include('../partials/header') %>
+    </header>
+    <main>
+      <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold"><%= post.title %></h1>
+          <p class="col-md-8 fs-4"><%= post.content %></p>
+          <div class="my-4">
+            <form
+              action="/pages/post?id=<%= post.id %>&a=upd"
+              method="post"
+              style="display: inline"
+            >
+              <button class="btn btn-primary">Modifier</button>
+            </form>
+            <form
+              action="/pages/post?id=<%= post.id %>&a=del"
+              method="post"
+              style="display: inline"
+            >
+              <button class="btn btn-danger">Supprimer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="bg-dark text-light">
+      <%- include('../partials/footer') %>
+    </footer>
+  </body>
+</html>
