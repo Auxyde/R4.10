@@ -6,14 +6,10 @@ module.exports = router;
 
 // page d'accueil
 router.get("/", function (req, res) {
-  const valeurSaisie = req.params.user;
-  const posts = Posts.loadPosts();
-  res.render("pages/index", { posts: posts });
+  res.render("pages/index", { posts: Posts.loadPosts() });
 });
 router.get("/posts", function (req, res) {
-  const valeurSaisie = req.params.user;
-  const posts = Posts.loadPosts();
-  res.render("pages/index", { posts: posts });
+  res.render("pages/index", { posts: Posts.loadPosts() });
 });
 
 // page à propos
@@ -27,29 +23,28 @@ router.get("/hello/:user", function (req, res) {
   res.render("pages/index", { user: valeurSaisie });
 });
 
-// affiche le poste avec l'aticle x
+// affiche le post avec l'aticle x
 router.get("/post", function (req, res) {
   const id = req.query.id || "";
   const add = req.query.a || "";
-  console.log(id);
+
   let post;
+
   if (id) {
     post = Posts.getPost(id);
     res.render("pages/post-read", { post });
   } else if (add) {
     res.render("pages/post-upd", { post });
   } else {
-    res.redirect("/pages/");
+    res.redirect("/");
   }
 });
 
+// enregistre le partie modification / ajout d'un post
 router.post("/post", function (req, res) {
   const id = req.query.id || "";
   const type = req.query.a || "";
-  if (type === "" && id) {
-    const post = Posts.getPost(id);
-    res.render("pages/post-upd", { post });
-  }
+
   if (type === "save") {
     let post = Posts.editPost(id, req.body);
     res.redirect("/");
@@ -59,6 +54,9 @@ router.post("/post", function (req, res) {
   } else if (type === "del") {
     Posts.deletePost(id);
     res.redirect("/");
+  } else {
+    const post = id ? Posts.getPost(id) : null;
+    res.render("pages/post-upd", { post });
   }
 });
 /***************************************/
